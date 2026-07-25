@@ -1,0 +1,10 @@
+# Local environment
+.env
+
+# Go build artifacts (air live-reload output, compiled binaries)
+/cmd/api/tmp/
+*.exe
+
+# Test and coverage output
+*.out
+coverage.*
