@@ -13,7 +13,7 @@ var migrationsFS embed.FS
 
 const lockID = 4242
 
-func Migrate(ctx context.Context, db sql.DB) error {
+func Migrate(ctx context.Context, db *sql.DB) error {
 	conn, err := db.Conn(ctx)
 
 	if err != nil {
