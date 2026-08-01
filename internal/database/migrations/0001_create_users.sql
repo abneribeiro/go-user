@@ -6,4 +6,4 @@ CREATE TABLE users (
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE UNIQUE INDEX users_name_key ON users(lower(name))
+CREATE UNIQUE INDEX users_email_key ON users(lower(email))
