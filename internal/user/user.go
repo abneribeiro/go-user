@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"net/mail"
 	"strings"
 	"time"
 )
@@ -10,6 +11,7 @@ import (
 var (
 	ErrNotFound  = errors.New("user not found")
 	ErrInvalid   = errors.New("invalid user")
+	ErrInvalidEmail = errors.New("invalid email")
 	ErrDuplicate = errors.New("user already exists")
 )
 
@@ -57,15 +59,20 @@ func (in *UpdateInput) Apply(t *User) error {
 
 func validate(name, email string) error {
 	switch {
-	case name == "":
-		return fmt.Errorf("%w: name is required", ErrInvalid)
-	// []rune e não len(): len conta BYTES. "ação" tem 4 letras
-	// e 6 bytes, e o usuário conta letras.
+	case name == "" || email == "":
+		return fmt.Errorf("%w: name and email are required", ErrInvalid)
+	// []rune instead of len(): len counts BYTES. "ação" has 4 letters
+	// and 6 bytes, and the user counts letters.
 	case len([]rune(name)) > 50:
 		return fmt.Errorf("%w: name must be at most 50 characters", ErrInvalid)
 	case len([]rune(email)) > 200:
 		return fmt.Errorf("%w: email must be at most 200 characters", ErrInvalid)
 	
 	}
+
+	if _, err := mail.ParseAddress(email); err != nil {
+		return fmt.Errorf("%w: invalid email", ErrInvalidEmail)
+	}
+	
 	return nil
 }
