@@ -21,7 +21,7 @@ func Load() (Config, error) {
 	cfg := Config{
 		Env: str("APP_ENV", "development"),
 		Port: str("PORT", "8080"),
-		DatabaseURL: str("Database_URL", ""),
+		DatabaseURL: str("DATABASE_URL", ""),
 		ReadTimeout: dur("READ_TIMEOUT", 5*time.Second),
 		WriteTimeout: dur("WRITE_TIMEOUT", 10*time.Second),
 		ShutdownTimeout: dur("SHUTDOWN_TIMEOUT", 15*time.Second),
