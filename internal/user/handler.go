@@ -170,6 +170,8 @@ func (h Handler) fail(w http.ResponseWriter, r *http.Request, err error) {
 		problem.Write(w, http.StatusConflict, "user already exists")
 	case errors.Is(err, ErrInvalid):
 		problem.Write(w, http.StatusUnprocessableEntity, err.Error())
+	case errors.Is(err, ErrInvalidEmail):
+		problem.Write(w, http.StatusUnprocessableEntity, err.Error())
 	default:
 	// Raw error goes to the log with the request_id; the client
 	// receives a generic message and nothing else.
