@@ -36,13 +36,19 @@ func (r postgres) Create(ctx context.Context, u *User) error {
 
 	const q = `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING ` + columns
 
-	err := r.db.QueryRowContext(ctx, q, u.Name, u.Email).Scan(&u.Name, &u.Email, &u.CreatedAt, &u.UpdatedAt)
+	err := r.db.QueryRowContext(ctx, q, u.Name, u.Email).Scan(
+        &u.ID, 
+        &u.Name, 
+        &u.Email, 
+        &u.CreatedAt, 
+        &u.UpdatedAt,
+    )
 
 	return translate(err)
 }
 
 func (r postgres) Get(ctx context.Context, id int64) (User, error) {
-	const q = `SELECT ` + columns + `FROM users WHERE id = $1`
+	const q = `SELECT ` + columns + ` FROM users WHERE id = $1 `
 
 	var u User
 
