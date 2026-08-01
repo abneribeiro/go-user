@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE users (
     id  BIGSERIAL   PRIMARY KEY,
     name  TEXT NOT NULL,
     email TEXT NOT NULL,
@@ -6,4 +6,4 @@ CREATE TABLE user (
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE UNIQUE INDEX user_name_key ON user(lower(name))
+CREATE UNIQUE INDEX users_name_key ON users(lower(name))
