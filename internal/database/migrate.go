@@ -8,7 +8,7 @@ import (
 	"sort"
 )
 
-
+//go:embed migrations/*.sql
 var migrationsFS embed.FS
 
 const lockID = 4242
