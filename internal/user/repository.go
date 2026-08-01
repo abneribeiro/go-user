@@ -52,7 +52,7 @@ func (r postgres) Get(ctx context.Context, id int64) (User, error) {
 
 	var u User
 
-	err := r.db.QueryRowContext(ctx, q, id).Scan(&u.Name, &u.Email, &u.CreatedAt, &u.UpdatedAt)
+	err := r.db.QueryRowContext(ctx, q, id).Scan(&u.ID, &u.Name, &u.Email, &u.CreatedAt, &u.UpdatedAt)
 
 	return u, translate(err)
 }
