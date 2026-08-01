@@ -15,6 +15,8 @@ import (
 	"github.com/abneribeiro/internal/database"
 	"github.com/abneribeiro/internal/logger"
 	"github.com/abneribeiro/internal/server"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func main(){
