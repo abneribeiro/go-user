@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/abneribeiro/internal/config"
+	"github.com/abneribeiro/internal/user"
 )
 
 type Deps struct {
@@ -31,6 +32,14 @@ func New(d Deps) http.Handler  {
 
 		w.WriteHeader(http.StatusOK)
 	})
+
+	userRepo := user.NewPostgresRepository(d.DB)
+	
+	// 2. Instancia o Handler
+	userHandler := user.NewHandler(userRepo, *d.Log)
+	
+	// 3. Registra as rotas de usuário no nosso mux!
+	userHandler.RegisterRoutes(mux)
 
 
 
