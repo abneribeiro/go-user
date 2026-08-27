@@ -9,16 +9,25 @@ import (
 )
 
 var (
-	ErrNotFound  = errors.New("user not found")
-	ErrInvalid   = errors.New("invalid user")
+	ErrNotFound     = errors.New("user not found")
+	ErrInvalid      = errors.New("invalid user")
 	ErrInvalidEmail = errors.New("invalid email")
-	ErrDuplicate = errors.New("user already exists")
+	ErrDuplicate    = errors.New("user already exists")
+	// ErrConflict means the row changed since the client read it: the
+	// version carried by If-Match no longer matches what is stored.
+	ErrConflict = errors.New("version conflict")
+	// ErrConstraint is a database CHECK violation. Its message is deliberately
+	// generic: the constraint name is a schema detail that belongs in the log,
+	// not in a response body.
+	ErrConstraint = errors.New("request violates a data constraint")
 )
 
 type User struct {
-	ID        int64     `json:"id"`
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	// Version is the optimistic-locking token, surfaced to clients as an ETag.
+	Version   int       `json:"version"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
