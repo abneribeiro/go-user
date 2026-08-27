@@ -161,7 +161,9 @@ func translate(err error) error {
 		case "23505": // unique_violation
 			return ErrDuplicate
 		case "23514": // check_violation
-			return fmt.Errorf("%w: %s", ErrInvalid, pgErr.ConstraintName)
+			// The name stays in the chain for the log; fail() writes only
+			// the generic ErrConstraint message to the client.
+			return fmt.Errorf("%w: %s", ErrConstraint, pgErr.ConstraintName)
 		}
 	}
 	return err // inesperado: sobe cru, virará 500 com log completo
