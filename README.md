@@ -69,14 +69,14 @@ Migrations in `internal/database/migrations` are embedded into the binary and ap
 ```bash
 curl -i -X POST localhost:8080/v1/users \
      -H 'Content-Type: application/json' \
-     -d '{"name":"abner","email":"abner@example.com"}'
+     -d '{"name":"john","email":"john@example.com"}'
 ```
 
 ```json
 {
   "id": 1,
-  "name": "abner",
-  "email": "abner@example.com",
+  "name": "john",
+  "email": "john@example.com",
   "version": 1,
   "created_at": "2026-08-27T12:00:00Z",
   "updated_at": "2026-08-27T12:00:00Z"
