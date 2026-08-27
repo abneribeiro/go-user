@@ -15,20 +15,18 @@ import (
 	"github.com/abneribeiro/internal/database"
 	"github.com/abneribeiro/internal/logger"
 	"github.com/abneribeiro/internal/server"
-
-	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-func main(){
+func main() {
 	if err := run(); err != nil {
 		log.Fatalf("fatal: %v", err)
 	}
 }
 
-func run() error  {
+func run() error {
 	cfg, err := config.Load()
 
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
@@ -50,15 +48,15 @@ func run() error  {
 	defer db.Close()
 
 	if err := database.Migrate(ctx, db); err != nil {
-		return  err
+		return err
 	}
 
 	srv := &http.Server{
-		Addr: ":" + cfg.Port,
-		Handler:  server.New(server.Deps{Cfg: cfg, Log:lg, DB: db}),
-		ReadTimeout: cfg.ReadTimeout,
+		Addr:         ":" + cfg.Port,
+		Handler:      server.New(server.Deps{Cfg: cfg, Log: lg, DB: db}),
+		ReadTimeout:  cfg.ReadTimeout,
 		WriteTimeout: cfg.WriteTimeout,
-		IdleTimeout: time.Minute,
+		IdleTimeout:  time.Minute,
 	}
 
 	errCh := make(chan error, 1)
@@ -82,7 +80,6 @@ func run() error  {
 		context.WithoutCancel(ctx), cfg.ShutdownTimeout)
 
 	defer cancel()
-
 
 	return srv.Shutdown(shutCtx)
 }
