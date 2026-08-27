@@ -1,0 +1,41 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: dev
+          POSTGRES_DB: users
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 2s
+          --health-retries 15
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+
+      - name: vet
+        run: go vet ./...
+
+      - name: unit tests
+        run: go test -race ./...
+
+      - name: integration tests
+        run: go test -tags=integration ./...
+        env:
+          TEST_DATABASE_URL: postgres://postgres:dev@localhost:5432/users?sslmode=disable
