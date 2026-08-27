@@ -6,18 +6,17 @@ import (
 	"os"
 )
 
-type ctxkey struct {}
+type ctxkey struct{}
 
 func WithRequestID(ctx context.Context, id string) context.Context {
 	return context.WithValue(ctx, ctxkey{}, id)
 }
 
-func RequestID(ctx context.Context) string  {
+func RequestID(ctx context.Context) string {
 	id, _ := ctx.Value(ctxkey{}).(string)
 
-	return  id
+	return id
 }
-
 
 type handler struct {
 	slog.Handler
@@ -30,7 +29,6 @@ func (h handler) Handle(ctx context.Context, r slog.Record) error {
 
 	return h.Handler.Handle(ctx, r)
 }
-
 
 func New(env string) *slog.Logger {
 	opts := &slog.HandlerOptions{Level: slog.LevelInfo}
