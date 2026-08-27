@@ -36,15 +36,13 @@ type User struct {
 // created_at, and cannot even try
 
 type CreateInput struct {
-	Name      string    `json:"name"`
-	Email     string    `json:"email"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
-
-
 
 func (in *CreateInput) Validate() error {
 	in.Name = strings.TrimSpace(in.Name)
-	in.Email = strings.TrimSpace(in.Email)
+	in.Email = normalizeEmail(in.Email)
 
 	return validate(in.Name, in.Email)
 }
@@ -54,17 +52,15 @@ type UpdateInput struct {
 	Email *string `json:"email"`
 }
 
-
 func (in *UpdateInput) Apply(t *User) error {
 	if in.Name != nil {
 		t.Name = strings.TrimSpace(*in.Name)
 	}
 	if in.Email != nil {
-		t.Email = strings.TrimSpace(*in.Email)
+		t.Email = normalizeEmail(*in.Email)
 	}
 	return validate(t.Name, t.Email)
 }
-
 
 func validate(name, email string) error {
 	switch {
@@ -76,12 +72,24 @@ func validate(name, email string) error {
 		return fmt.Errorf("%w: name must be at most 50 characters", ErrInvalid)
 	case len([]rune(email)) > 200:
 		return fmt.Errorf("%w: email must be at most 200 characters", ErrInvalid)
-	
+
 	}
 
-	if _, err := mail.ParseAddress(email); err != nil {
-		return fmt.Errorf("%w: invalid email", ErrInvalidEmail)
+	// mail.ParseAddress implements RFC 5322, not "an email": it happily
+	// accepts `Victim <attacker@evil.com>`. Discarding the parsed value and
+	// storing the raw string is how a display name ends up in the database,
+	// and from there in a To: header, a log line or a rendered page.
+	addr, err := mail.ParseAddress(email)
+	if err != nil || addr.Name != "" || addr.Address != email {
+		return fmt.Errorf("%w: expected a plain address like name@example.com", ErrInvalidEmail)
 	}
-	
+
 	return nil
+}
+
+// normalizeEmail lowercases as well as trims: the unique index is on
+// lower(email), so without this the database is case-insensitive and the
+// application is not.
+func normalizeEmail(email string) string {
+	return strings.ToLower(strings.TrimSpace(email))
 }
