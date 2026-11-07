@@ -11,8 +11,8 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/abneribeiro/internal/logger"
-	"github.com/abneribeiro/internal/problem"
+	"github.com/abneribeiro/go-user/internal/logger"
+	"github.com/abneribeiro/go-user/internal/problem"
 )
 
 // responseWriter is the single wrapper in the chain. It is created once, by

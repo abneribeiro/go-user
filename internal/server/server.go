@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/abneribeiro/internal/config"
-	"github.com/abneribeiro/internal/user"
+	"github.com/abneribeiro/go-user/internal/config"
+	"github.com/abneribeiro/go-user/internal/user"
 )
 
 type Deps struct {
