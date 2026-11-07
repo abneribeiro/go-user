@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/abneribeiro/internal/problem"
+	"github.com/abneribeiro/go-user/internal/problem"
 )
 
 type Handler struct {

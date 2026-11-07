@@ -8,8 +8,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/abneribeiro/internal/database"
-	"github.com/abneribeiro/internal/user"
+	"github.com/abneribeiro/go-user/internal/database"
+	"github.com/abneribeiro/go-user/internal/user"
 )
 
 func TestRepositoryDuplicateEmail(t *testing.T) {

@@ -11,10 +11,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/abneribeiro/internal/config"
-	"github.com/abneribeiro/internal/database"
-	"github.com/abneribeiro/internal/logger"
-	"github.com/abneribeiro/internal/server"
+	"github.com/abneribeiro/go-user/internal/config"
+	"github.com/abneribeiro/go-user/internal/database"
+	"github.com/abneribeiro/go-user/internal/logger"
+	"github.com/abneribeiro/go-user/internal/server"
 )
 
 func main() {

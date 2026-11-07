@@ -1,4 +1,4 @@
-module github.com/abneribeiro
+module github.com/abneribeiro/go-user
 
 go 1.26.4
 
