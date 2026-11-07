@@ -14,13 +14,13 @@
 
 ## **behaviour**
 
--     `GET /v1/users` returns a `{items, total, limit, offset}` envelope; `limit` defaults to 20 and is capped at 100
--     `PATCH` is a read-modify-write, so it requires the `ETag` returned by `GET` in `If-Match`: no header is a `428`, a version that moved on is a `412`
--     `DELETE` is not silently idempotent: a user that is not there is a `404`
--     bodies must be `application/json` (`415`), fit `MAX_BODY_BYTES` (`413`), carry no unknown fields and exactly one json document
--     emails are compared against the parsed address, so `Victim <attacker@evil.com>` is rejected, then lowercased to match the `lower(email)` unique index
--     a handler over `HANDLER_TIMEOUT` is cut off with a `503`; every response carries `nosniff`, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`
--     `X-Request-ID` is reused when the caller sends one, but only after a charset and length check
+-   `GET /v1/users` returns a `{items, total, limit, offset}` envelope; `limit` defaults to 20 and is capped at 100
+-   `PATCH` is a read-modify-write, so it requires the `ETag` returned by `GET` in `If-Match`: no header is a `428`, a version that moved on is a `412`
+-   `DELETE` is not silently idempotent: a user that is not there is a `404`
+-   bodies must be `application/json` (`415`), fit `MAX_BODY_BYTES` (`413`), carry no unknown fields and exactly one json document
+-   emails are compared against the parsed address, so `Victim <attacker@evil.com>` is rejected, then lowercased to match the `lower(email)` unique index
+-   a handler over `HANDLER_TIMEOUT` is cut off with a `503`; every response carries `nosniff`, `X-Frame-Options: DENY` and `Referrer-Policy: no-referrer`
+-   `X-Request-ID` is reused when the caller sends one, but only after a charset and length check
 
 ## **example: conditional update**
 
